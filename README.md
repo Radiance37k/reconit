@@ -34,7 +34,7 @@ httprobe\
 subjack\
 nmap\
 waybackurls\
-gowitness\
+gowitness
 
 # Author and thanks
 Thanks to:\
