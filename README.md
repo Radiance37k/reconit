@@ -48,4 +48,5 @@ You for taking the time to read this and possibly using my script
 
 
 # TO DO
-Finish HTML report generation
+Finish HTML report generation\
+Create an installation script to install all required programs
