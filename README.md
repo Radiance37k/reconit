@@ -27,20 +27,20 @@ chmod +x reconit.sh
 ```
 
 ## Requirements
-In order to make this script work there are a few programs that you need to have installed.
-Assetfinder
-Amass
-httprobe
-subjack
-nmap
-waybackurls
-gowitness
+In order to make this script work there are a few programs that you need to have installed.\
+Assetfinder\
+Amass\
+httprobe\
+subjack\
+nmap\
+waybackurls\
+gowitness\
 
 # Author and thanks
-Thanks to:
-nahamsec for creating Lazyrecon
-TCM for being an awesome and a really generous guy
-Argot for pointing me to Lazyrecon and getting this started
+Thanks to:\
+nahamsec for creating Lazyrecon\
+TCM for being an awesome and a really generous guy\
+Argot for pointing me to Lazyrecon and getting this started\
 
 The authors for the various tools used by my script
 
