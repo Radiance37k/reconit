@@ -36,11 +36,32 @@ nmap\
 waybackurls\
 gowitness
 
+# The config file `reconit.conf`
+As of now, only one variable is in the conf file. The template to be used.\
+Default: `report_template=devhints`
+
+In this case the template file used is `reconit/template/devhints.html`
+
+# Template system
+The script uses a template for the report In order to create one, just create a normal HTML file with certain keywords where the script should include info from the scans. All keywords have a leading `__%` and a trailing `__%`
+
+Keywords in template | Description
+------------ | -------------
+__%domain%__ | Name of domain
+__%numdomains%__ | Number of scanned subdomains
+__%subdomains%__ | List of all subdomains
+__%screenshots%__ | Table with all screenshots
+__%takeover%__ | List of all subdomin takeover vulnerabilities
+__%dig%__ | DIG info
+__%host%__ | Host info
+__%wayback%__ | Wayback data
+__%ports%__ | List of open ports, nmap
+
 # Author and thanks
 Thanks to:\
 nahamsec for creating Lazyrecon\
 TCM for being an awesome and a really generous guy\
-Argot for pointing me to Lazyrecon and getting this started\
+Argot for pointing me to Lazyrecon and getting this started
 
 The authors for the various tools used by my script
 

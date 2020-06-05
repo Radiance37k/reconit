@@ -99,9 +99,13 @@ _wayback(){
             echo $line >> $domain/temp/js.txt
             sort -u $domain/temp/js.txt >> $domain/recon/wayback/extensions/js.txt
         fi
-        if [[ "$ext" == "html" ]];then
+        if [[ "$ext" == "jsp" ]];then
             echo $line >> $domain/temp/jsp.txt
             sort -u $domain//temp/jsp.txt >> $domain/recon/wayback/extensions/jsp.txt
+        fi
+        if [[ "$ext" == "html" ]];then
+            echo $line >> $domain/temp/html.txt
+            sort -u $domain//temp/html.txt >> $domain/recon/wayback/extensions/jsp.txt
         fi
         if [[ "$ext" == "json" ]];then
             echo $line >> $domain//temp/json.txt
@@ -120,16 +124,63 @@ _wayback(){
 
 _gowitness(){
     echo "${green}[+]${reset} Using ${yellow}gowitness${reset} to grab screenshots..."
-    gowitness file -s $domain/recon/httprobe/alive-with-protocol.txt -d $domain/recon/screenshots > /dev/null 2>&1
+    gowitness file --disable-db -s $domain/recon/httprobe/alive-with-protocol.txt -d $domain/recon/screenshots > /dev/null 2>&1
 }
 
 _generate_report(){
-    echo "${red}[-]${reset} Report generation not done yet"
+    echo "${green}[+]${reset} Generating report for ${yellow}$domain${reset}"
     # TODO:
     # Read the file from $basedir/template/$report_template line by line
     # check if one of the keywords are hit
     # Echo out relevant info to report file
     # else echo the line to report file
+
+    # Create the report file if it doesn't exist, clear it if it does exist
+    echo "" > $domain/report.html
+
+    while IFS= read -r line
+    do
+        if [[ $line =~ "__%" ]]
+        then
+            keyword=$(echo $line | sed -e 's/.*__%\(.*\)%__.*/\1/')
+
+            # This works weirdly, sed command cuts the word itself without the __% and %__, but it's still in $line
+            case "$keyword" in
+                "domain")
+                    line=${line/__%domain%__/$domain}
+                    ;;
+                "numdomains")
+                    line=${line/__%numdomains%__/$( wc -l $domain/recon/httprobe/alive.txt | cut -d ' ' -f 1)}
+                    ;;
+                "subdomains")
+                    line=${line/__%subdomains%__/$( cat $domain/recon/httprobe/alive.txt )}
+                    ;;
+                "screenshots")
+                    # TODO: For each file in screenshot directory, tag it, increase counter, if counter >= 4, set it to 0, do <br>
+                    line=${line/__%screenshots%__/$( echo "<img class='myImg' src='http://www.chinabuddhismencyclopedia.com/en/images/thumb/b/b8/Nature.jpg/240px-Nature.jpg' alt='Trolltunga, Norway' width='300' height='200'><img class='myImg' src='https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg' alt='This dog' width='300' height='200'><img class='myImg' src='https://i.ytimg.com/vi/MPV2METPeJU/maxresdefault.jpg' alt='Dog' width='300' height='200'><img class='myImg' src='http://www.chinabuddhismencyclopedia.com/en/images/thumb/b/b8/Nature.jpg/240px-Nature.jpg' alt='Trolltunga, Norway' width='300' height='200'>")}
+                    ;;
+                "takeover")
+                    line=${line/__%takeover%__/$( [ -s $domain/recon/potential_takeovers/potential_takeovers.txt ] && cat $domain/recon/potential_takeovers/potential_takeovers.txt )}
+                    ;;
+                "dig")
+                    line=${line/__%dig%__/$( dig $domain )}
+                    ;;
+                "host")
+                    line=${line/__%host%__/$( host $domain )}
+                    ;;
+                "wayback")
+                    # Link to each file in wayback/extensions directory
+                    # Also do wayback/params
+                    line=${line/__%wayback%__/"TODO: Parse data and show it"}
+                    ;;
+                "ports")
+                    line=${line/__%ports%__/$( cat $domain/recon/scans/scanned.txt.nmap )}
+                    ;;
+            esac
+        fi
+        echo "$line" >> $domain/report.html
+    done < $basedir/template/$report_template.html
+
 
     # TODO devhints.html
     # Add screenshots as modal
@@ -162,28 +213,15 @@ _logo
 echo "${green}Recon initiated."
 echo "Target: ${yellow}$domain ${reset}"
 
-if [ "$run_assetfinder" = true ] ; then
-    _assetfinder
-fi
-if [ "$run_amass" = true ] ; then
-    _amass
-fi
-if [ "$run_httprobe" = true ] ; then
-    _httprobe
-fi
-if [ "$run_subjack" = true ] ; then
-    _subjack
-fi
-if [ "$run_nmap" = true ] ; then
-    _nmap
-fi
-if [ "$run_wayback" = true ] ; then
-    _wayback
-fi
-if [ "$run_gowitness" = true ] ; then
-    _gowitness
-fi
-# Add more "apps" from lazyrecon later
+# Run the scan programs
+_assetfinder
+_amass
+_httprobe
+_subjack
+_nmap
+_wayback
+_gowitness
+# Maybe add more "apps" later
 
 rm -r $domain/temp
 
@@ -193,4 +231,4 @@ echo "Scan completed in : $(($duration / 60)) minutes and $(($duration % 60)) se
 
 #today=$(date +"%Y-%m-%d")
 
-_generate_report
+#_generate_report

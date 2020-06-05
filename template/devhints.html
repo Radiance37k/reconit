@@ -56,7 +56,7 @@
 			.MarkdownBody ul.-four-column>li{flex:0 0 25%}
 			@media (max-width:480px){.MarkdownBody ul.-four-column>li{flex:0 0 50%}}
 			@media (max-width:768px){.MarkdownBody ul.-four-column>li{flex:0 0 33.3333333333%}}
-			.body-area{max-width:1232px;margin:0 auto;padding:16px}
+			.body-area{max-width:1500px;margin:0 auto;padding:16px}
 			@media (max-width:480px){.body-area{padding:16px}}
 			.h2-section:first-child:not(.-no-hide)>h2{display:none}.h3-section>.body>pre{margin:0;padding:16px}
 			@media (max-width:768px){.h3-section>.body{overflow-x:auto}}.h3-section>.body{background:#fff;box-shadow:0 6px 8px rgba(102,119,136,.03),0 1px 2px rgba(102,119,136,.3)}
@@ -108,45 +108,180 @@
 			.main-heading.-center>h1{text-align:center}
 			.main-heading.-center>.adbox{margin-top:16px;text-align:center}
 			.main-heading.-center>.adbox>.ad{display:inline-block}
+
+			/* Style the Image Used to Trigger the Modal */
+			.myImg {
+			    border-radius: 5px;
+			    cursor: pointer;
+			    transition: 0.3s;
+			}
+
+			.myImg:hover {opacity: 0.7;}
+
+			/* The Modal (background) */
+			.modal {
+			    display: none; /* Hidden by default */
+			    position: fixed; /* Stay in place */
+			    z-index: 1; /* Sit on top */
+			    padding-top: 100px; /* Location of the box */
+			    left: 0;
+			    top: 0;
+			    width: 100%; /* Full width */
+			    height: 100%; /* Full height */
+			    overflow: auto; /* Enable scroll if needed */
+			    background-color: rgb(0,0,0); /* Fallback color */
+			    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+			}
+
+			/* Modal Content (Image) */
+			.modal-content {
+			    margin: auto;
+			    display: block;
+			    width: 80%;
+			    max-width: 700px;
+			}
+
+			/* Caption of Modal Image (Image Text) - Same Width as the Image */
+			#caption {
+			    margin: auto;
+			    display: block;
+			    width: 80%;
+			    max-width: 700px;
+			    text-align: center;
+			    color: #ccc;
+			    padding: 10px 0;
+			    height: 150px;
+			}
+
+			/* Add Animation - Zoom in the Modal */
+			.modal-content, #caption {
+			    -webkit-animation-name: zoom;
+			    -webkit-animation-duration: 0.6s;
+			    animation-name: zoom;
+			    animation-duration: 0.6s;
+			}
+
+			@-webkit-keyframes zoom {
+			    from {-webkit-transform:scale(0)}
+			    to {-webkit-transform:scale(1)}
+			}
+
+			@keyframes zoom {
+			    from {transform:scale(0)}
+			    to {transform:scale(1)}
+			}
+
+			/* The Close Button */
+			.close {
+			    position: absolute;
+			    top: 15px;
+			    right: 35px;
+			    color: #f1f1f1;
+			    font-size: 40px;
+			    font-weight: bold;
+			    transition: 0.3s;
+			}
+
+			.close:hover,
+			.close:focus {
+			    color: #bbb;
+			    text-decoration: none;
+			    cursor: pointer;
+			}
+
+			/* 100% Image Width on Smaller Screens */
+			@media only screen and (max-width: 700px){
+			    .modal-content {
+			        width: 100%;
+			    }
+			}
 		</style>
 	</head>
 	<body>
 		<div class='body-area'>
 			<header class='main-heading -center' role='banner'>
-				<h1 class='h1'>Recon for <em>$domain</em></h1>
+				<h1 class='h1'>Recon for <em>__%domain%__</em></h1>
 			</header>
 
 			<main class='post-content MarkdownBody' data-js-main-body data-js-anchors role='main'>
-				<h2 class="-two-column" id="recon">Recon</h2>
-				<h3 id="subdomains">Total scanned subdomains: $num</h3>
-<pre>
-__subdomains__
-</pre>
+				<h2 class="-one-column" id="screenshots"></h2>
 				<h3 id="screenshots">Screenshots</h3>
 <pre>
-__screenshots__
+				<center>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+				<!-- Trigger the Modal -->
+__%screenshots%__
+				</center>
+				<!-- The Modal -->
+				<div id="myModal" class="modal">
+
+				  <!-- The Close Button -->
+				  <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+				  <!-- Modal Content (The Image) -->
+				  <img class="modal-content" id="img01">
+
+				  <!-- Modal Caption (Image Text) -->
+				  <div id="caption"></div>
+				</div>
+
+				<!-- The Modal -->
+				<div id="myModal" class="modal">
+				  <span class="close">&times;</span>
+				  <img class="modal-content" id="img01">
+				  <div id="caption"></div>
+				</div>
+
+				<script>
+				// Get the modal
+				var modal = document.getElementById('myModal');
+
+				// Get the image and insert it inside the modal - use its "alt" text as a caption
+				var img = $('.myImg');
+				var modalImg = $("#img01");
+				var captionText = document.getElementById("caption");
+				$('.myImg').click(function(){
+				    modal.style.display = "block";
+				    var newSrc = this.src;
+				    modalImg.attr('src', newSrc);
+				    captionText.innerHTML = this.alt;
+				});
+
+				// Get the <span> element that closes the modal
+				var span = document.getElementsByClassName("close")[0];
+
+				// When the user clicks on <span> (x), close the modal
+				span.onclick = function() {
+				  modal.style.display = "none";
+				}
+				</script>
+</pre>
+				<h2 class="-three-column" id="recon"></h2>
+				<h3 id="subdomains">Total scanned subdomains: __%numdomains%__</h3>
+<pre>
+__%subdomains%__
 </pre>
 				<h3 id="takeovers">Possible subdomain takeover</h3>
 <pre>
-__takeover__
+__%takeover%__
 </pre>
+
 				<h3 id="diginfo">DIG Info</h3>
 <pre>
-__dig__
+__%dig%__
 </pre>
 				<h3 id="hostinfo">Host Info</h3>
 <pre>
-__host__
+__%host%__
 </pre>
 				<h3 id="wayback">Wayback Data</h3>
 <pre>
-__wayback__
+__%wayback%__
 </pre>
 				<h3 id="openports">Open Ports</h3>
 <pre>
-__ports_
+__%ports%__
 </pre>
-
 		<script>!function(e){function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}var t={};n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:r})},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},n.p="",n(n.s=2)}([function(e,n){function t(e,n){var t=e.matches||e.matchesSelector||e.msMatchesSelector||e.mozMatchesSelector||e.webkitMatchesSelector||e.oMatchesSelector;if(t)return t.call(e,n);if(e.parentNode){for(var r=e.parentNode.querySelectorAll(n),o=r.length;o--;0)if(r[o]===e)return!0;return!1}}e.exports=t},function(e,n,t){function r(e,n){if(n){if(Array.isArray(n))return void o(n,function(n){r(e,n)});if(e.classList){var t=n.split(" ").filter(Boolean);o(t,function(n){e.classList.add(n)})}else e.className+=" "+n}}var o=t(4);e.exports=r},function(e,n,t){"use strict";function r(e){return e&&e.__esModule?e:{default:e}}function o(){d||((0,c.default)(document.documentElement,"LoadDone"),d=!0)}var i=t(3),u=r(i),a=t(1),c=r(a),f=t(6),l=r(f),s=document.querySelector("[data-js-main-body]");s&&((0,u.default)(s),(0,c.default)(s,"-wrapified")),(0,l.default)(window,"load",o),setTimeout(o,5e3);var d=void 0},function(e,n,t){"use strict";function r(e){return e&&e.__esModule?e:{default:e}}function o(e){if(Array.isArray(e)){for(var n=0,t=Array(e.length);n<e.length;n++)t[n]=e[n];return t}return Array.from(e)}function i(e){u(e).forEach(function(e){(0,p.findChildren)(e,"[data-js-h3-section-list]").forEach(function(e){a(e)})})}function u(e){return c(e,{tag:"h2",wrapperFn:function(){return(0,p.createDiv)({class:"h2-section"})},bodyFn:function(){return(0,p.createDiv)({class:"body h3-section-list","data-js-h3-section-list":""})}})}function a(e){return c(e,{tag:"h3",wrapperFn:function(){return(0,p.createDiv)({class:"h3-section"})},bodyFn:function(){return(0,p.createDiv)({class:"body"})}})}function c(e,n){function t(e,n,t){var r=i(),o=e.className;o&&(0,d.default)(r,o),(0,p.before)(e,r);var a=u();return o&&(0,d.default)(a,o),(0,p.appendMany)(a,t),n&&r.appendChild(n),r.appendChild(a),r}var r=n.tag,i=n.wrapperFn,u=n.bodyFn,a=e.children[0],c=[];if(a&&!(0,l.default)(a,r)){var f=(0,p.nextUntil)(a,r);c.push(t(a,null,[a].concat(o(f))))}return(0,p.findChildren)(e,r).forEach(function(e){var n=(0,p.nextUntil)(e,r);c.push(t(e,e,n))}),c}Object.defineProperty(n,"__esModule",{value:!0}),n.default=i,n.groupify=c;var f=t(0),l=r(f),s=t(1),d=r(s),p=t(5)},function(e,n){function t(e,n){var t,r,o=e.length;if("number"==typeof o)for(t=0;t<o;t++)n(e[t],t);else{r=0;for(t in e)e.hasOwnProperty(t)&&n(e[t],t,r++)}return e}e.exports=t},function(e,n,t){"use strict";function r(e){if(Array.isArray(e)){for(var n=0,t=Array(e.length);n<e.length;n++)t[n]=e[n];return t}return Array.from(e)}function o(e,n){n.forEach(function(n){e.appendChild(n)})}function i(e,n){return u(e.nextSibling,n,[])}function u(e,n,t){return e?(0,s.default)(e,n)?t:u(e.nextSibling,n,[].concat(r(t),[e])):t}function a(e,n){e.parentNode.insertBefore(n,e)}function c(e,n){return[].slice.call(e.children).filter(function(e){return(0,s.default)(e,n)})}function f(e){var n=document.createElement("div");return Object.keys(e).forEach(function(t){n.setAttribute(t,e[t])}),n}Object.defineProperty(n,"__esModule",{value:!0}),n.appendMany=o,n.nextUntil=i,n.before=a,n.findChildren=c,n.createDiv=f;var l=t(0),s=function(e){return e&&e.__esModule?e:{default:e}}(l)},function(e,n){function t(e,n,t){e.addEventListener?e.addEventListener(n,t):e.attachEvent("on"+n,function(){t.call(e)})}e.exports=t}]);</script>
 	</body>
 </html>
