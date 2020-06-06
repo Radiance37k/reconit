@@ -14,15 +14,21 @@
 `./reconit.sh somedomain.com`
 
 # About:
+You can create a symlink to the script, it handles that in order to find the config and template files.
 
-# Why this script exists:
+## Why this script exists:
 I was told about a script called Lazyrecon, but I couldn't get it to work. Upon trying to debug it I realized the code was a mess and not very modular, so it was hard for me to debug it. I refurbished it and got to understand it better, but while I was doing that I found another script by The Cyber Mentor which did the same but was much cleaner in my opinion.
 
 So instead I re-did the script again using TCM's script as a base, but made it more modular and intend to expand it even further.
 
 # Installation:
+Before running the installrequired script, make sure golang is installed correctly.
+Also make sure that `GOPATH=~/go` and `GO111MODULE=on` are set.
+
 ```
 git clone https://github.com/Radiance37k/reconit.git
+cd recon
+bash ./installrequired.sh
 chmod +x reconit.sh
 ```
 
@@ -35,6 +41,8 @@ subjack\
 nmap\
 waybackurls\
 gowitness
+
+You can install them all by using the provided `installrequired.sh` script.
 
 # The config file `reconit.conf`
 As of now, only one variable is in the conf file. The template to be used.\
@@ -57,17 +65,20 @@ __%host%__ | Host info
 __%wayback%__ | Wayback data
 __%ports%__ | List of open ports, nmap
 
-# Author and thanks
+# Thanks
 Thanks to:\
 nahamsec for creating Lazyrecon\
-TCM for being an awesome and a really generous guy\
+TCM for being an awesome and a really generous guy and providing the baseline for this script\
 Argot for pointing me to Lazyrecon and getting this started
 
-The authors for the various tools used by my script
+Tomnomnom for writing assetfinder, httprobe and waybackurls\
+OWASP for writing amass\
+Haccer for writing subjack\
+Gordon Lyon for writing nmap\
+Sensepost for writing gowitness
 
 You for taking the time to read this and possibly using my script
 
 
 # TO DO
-Finish HTML report generation\
 Create an installation script to install all required programs

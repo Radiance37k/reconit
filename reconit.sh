@@ -129,11 +129,6 @@ _gowitness(){
 
 _generate_report(){
     echo "${green}[+]${reset} Generating report for ${yellow}$domain${reset}"
-    # TODO:
-    # Read the file from $basedir/template/$report_template line by line
-    # check if one of the keywords are hit
-    # Echo out relevant info to report file
-    # else echo the line to report file
 
     # Create the report file if it doesn't exist, clear it if it does exist
     echo "" > $domain/report.html
@@ -156,8 +151,18 @@ _generate_report(){
                     line=${line/__%subdomains%__/$( cat $domain/recon/httprobe/alive.txt )}
                     ;;
                 "screenshots")
-                    # TODO: For each file in screenshot directory, tag it, increase counter, if counter >= 4, set it to 0, do <br>
-                    line=${line/__%screenshots%__/$( echo "<img class='myImg' src='http://www.chinabuddhismencyclopedia.com/en/images/thumb/b/b8/Nature.jpg/240px-Nature.jpg' alt='Trolltunga, Norway' width='300' height='200'><img class='myImg' src='https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg' alt='This dog' width='300' height='200'><img class='myImg' src='https://i.ytimg.com/vi/MPV2METPeJU/maxresdefault.jpg' alt='Dog' width='300' height='200'><img class='myImg' src='http://www.chinabuddhismencyclopedia.com/en/images/thumb/b/b8/Nature.jpg/240px-Nature.jpg' alt='Trolltunga, Norway' width='300' height='200'>")}
+                    imgcount=0
+                    for entry in "$domain/recon/screenshots/"*
+                    do
+                        if [[ imgcount -le 3 ]]; then
+                            printf "<img class='myImg' src='recon/screenshots/%s' alt='%s' width='300' height='200'>" $(basename $entry) $(basename ${entry%.png})>> $domain/report.html
+                            ((imgcount++))
+                        else
+                            printf "<br>" >> $domain/report.html
+                            imgcount=0
+                        fi
+                    done
+                    line=""
                     ;;
                 "takeover")
                     line=${line/__%takeover%__/$( [ -s $domain/recon/potential_takeovers/potential_takeovers.txt ] && cat $domain/recon/potential_takeovers/potential_takeovers.txt )}
@@ -169,9 +174,23 @@ _generate_report(){
                     line=${line/__%host%__/$( host $domain )}
                     ;;
                 "wayback")
-                    # Link to each file in wayback/extensions directory
-                    # Also do wayback/params
-                    line=${line/__%wayback%__/"TODO: Parse data and show it"}
+                    line=''
+                    echo "<ul>" >> $domain/report.html
+                        echo "<li>Extensions</li>" >> $domain/report.html
+                            echo "<ul>" >> $domain/report.html
+                                for entry in "$domain/recon/wayback/extensions/"*
+                                do
+                                    echo "<li><a href='recon/wayback/extensions/$(basename $entry)'>"$(basename $entry)"</a></li>" >> $domain/report.html
+                                done
+                            echo "</ul>" >> $domain/report.html
+                        echo "<li>Params</li>" >> $domain/report.html
+                        echo "<ul>" >> $domain/report.html
+                                for entry in "$domain/recon/wayback/params/"*
+                                do
+                                    echo "<li><a href='recon/wayback/params/$(basename $entry)'>"$(basename $entry)"</a></li>" >> $domain/report.html
+                                done
+                            echo "</ul>" >> $domain/report.html
+                    echo "</ul>" >> $domain/report.html
                     ;;
                 "ports")
                     line=${line/__%ports%__/$( cat $domain/recon/scans/scanned.txt.nmap )}
@@ -214,13 +233,13 @@ echo "${green}Recon initiated."
 echo "Target: ${yellow}$domain ${reset}"
 
 # Run the scan programs
-_assetfinder
-_amass
-_httprobe
-_subjack
-_nmap
-_wayback
-_gowitness
+#_assetfinder
+#_amass
+#_httprobe
+#_subjack
+#_nmap
+#_wayback
+#_gowitness
 # Maybe add more "apps" later
 
 rm -r $domain/temp
@@ -229,6 +248,4 @@ echo "${green}Scan for ${yellow}$domain${green} finished${reset}"
 duration=$SECONDS
 echo "Scan completed in : $(($duration / 60)) minutes and $(($duration % 60)) seconds."
 
-#today=$(date +"%Y-%m-%d")
-
-#_generate_report
+_generate_report
