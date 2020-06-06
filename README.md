@@ -55,15 +55,15 @@ The script uses a template for the report In order to create one, just create a 
 
 Keywords in template | Description
 ------------ | -------------
-__%domain%__ | Name of domain
-__%numdomains%__ | Number of scanned subdomains
-__%subdomains%__ | List of all subdomains
-__%screenshots%__ | Table with all screenshots
-__%takeover%__ | List of all subdomin takeover vulnerabilities
-__%dig%__ | DIG info
-__%host%__ | Host info
-__%wayback%__ | Wayback data
-__%ports%__ | List of open ports, nmap
+`__%domain%__` | Name of domain
+`__%numdomains%__` | Number of scanned subdomains
+`__%subdomains%__` | List of all subdomains
+`__%screenshots%__` | Table with all screenshots
+`__%takeover%__` | List of all subdomin takeover vulnerabilities
+`__%dig%__` | DIG info
+`__%host%__` | Host info
+`__%wayback%__` | Wayback data
+`__%ports%__` | List of open ports, nmap
 
 # Thanks
 Thanks to:\
@@ -81,4 +81,4 @@ You for taking the time to read this and possibly using my script
 
 
 # TO DO
-Create an installation script to install all required programs
+List empty for now :)
