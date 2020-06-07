@@ -233,14 +233,13 @@ echo "${green}Recon initiated."
 echo "Target: ${yellow}$domain ${reset}"
 
 # Run the scan programs
-#_assetfinder
-#_amass
-#_httprobe
-#_subjack
-#_nmap
-#_wayback
-#_gowitness
-# Maybe add more "apps" later
+_assetfinder
+_amass
+_httprobe
+_subjack
+_nmap
+_wayback
+_gowitness
 
 rm -r $domain/temp
 
