@@ -51,7 +51,7 @@ Default: `report_template=devhints`
 In this case the template file used is `reconit/template/devhints.html`
 
 # Template system
-The script uses a template for the report In order to create one, just create a normal HTML file with certain keywords where the script should include info from the scans. All keywords have a leading `__%` and a trailing `__%`
+The script uses a template for the report In order to create one, just create a normal HTML file with certain keywords where the script should include info from the scans. All keywords have a leading `__%` and a trailing `%__`
 
 Keywords in template | Description
 ------------ | -------------
